@@ -11,12 +11,7 @@ public class AnimalEntity {
     private String name;
     private Integer age;
 
-    @Column(insertable=false, updatable=false)
-    private Long breedId;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "breedId",
-            referencedColumnName = "id")
+    @ManyToOne
     private BreedEntity breed;
 
 
@@ -65,11 +60,4 @@ public class AnimalEntity {
         this.gender = gender;
     }
 
-    public Long getBreedId() {
-        return breedId;
-    }
-
-    public void setBreedId(Long breedId) {
-        this.breedId = breedId;
-    }
 }

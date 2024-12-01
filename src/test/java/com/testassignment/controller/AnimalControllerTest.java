@@ -1,72 +1,78 @@
 package com.testassignment.controller;
 
 
+import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.hamcrest.core.Is;
-import org.junit.Before;
+import com.testassignment.dto.AnimalDto;
+import com.testassignment.service.AnimalService;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
-import java.nio.charset.Charset;
+import java.util.ArrayList;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest
-@AutoConfigureMockMvc
+@WebMvcTest(AnimalController.class)
 class AnimalControllerTest {
-
-//    @MockBean
-//    private UserRepository userRepository;
-//
-//    @Autowired
-//    UserController userController;
-
-
-
 
 
     @Autowired
-    private WebApplicationContext wac;
-
     private MockMvc mockMvc;
 
-    @Before
-    public void setup() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
-
+    @MockBean
+    private AnimalService service;
 
     @Test
-    public void whenPostRequestToUsersAndValidUser_thenCorrectResponse() throws Exception {
-        MediaType textPlainUtf8 = new MediaType(MediaType.TEXT_PLAIN, Charset.forName("UTF-8"));
-        String user = "{\"name\": \"bob\", \"email\" : \"bob@domain.com\"}";
-        mockMvc.perform(MockMvcRequestBuilders.post("/users")
-                        .content(user)
-                        .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content()
-                        .contentType(textPlainUtf8));
+    public void whenGetAnimals_thenEmptyArrayShouldBeReturned() throws Exception {
+        when(service.getAnimals()).thenReturn(new ArrayList<>());
+        this.mockMvc.perform(get("/getAnimals"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("[]")));
     }
 
     @Test
-    public void whenPostRequestToUsersAndInValidUser_thenCorrectResponse() throws Exception {
-        String user = "{\"name\": \"\", \"email\" : \"bob@domain.com\"}";
-        mockMvc.perform(MockMvcRequestBuilders.post("/users")
-                        .content(user)
-                        .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", Is.is("Name is mandatory")))
-                .andExpect(MockMvcResultMatchers.content()
-                        .contentType(MediaType.APPLICATION_JSON_UTF8));
+    public void whenPostAddAnimalRequest_thenSavedEntityShouldBeReturned() throws Exception {
+        String animal = "{" +
+                "\"name\": \"rex\"," +
+                " \"age\" : 2," +
+                " \"gender\" : \"MALE\"," +
+                " \"breedType\" : 1" +
+                "}";
+
+        AnimalDto dto = new AnimalDto();
+        dto.setName("rex");
+        dto.setAge(2);
+        dto.setGender("MALE");
+        dto.setBreedType(1L);
+        dto.setId(66L);
+        when(service.addAnimal(any())).thenReturn(dto);
+        this.mockMvc.perform(post("/addAnimal")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(animal))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("{\"id\":66,\"name\":\"rex\",\"age\":2,\"breedType\":1,\"gender\":\"MALE\"}")));
     }
+
+    @Test
+    public void whenDeleteWasInvoked_thenServiceMethodShouldBeCalled() throws Exception {
+        Mockito.doNothing().when(service).removeAnimal(any());
+        this.mockMvc.perform(delete("/removeAnimal/1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Animal was removed")));
+    }
+
 }
 

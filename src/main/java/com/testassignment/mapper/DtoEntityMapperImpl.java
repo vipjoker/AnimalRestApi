@@ -3,17 +3,27 @@ package com.testassignment.mapper;
 import com.testassignment.dto.AnimalDto;
 import com.testassignment.dto.AnimalWithDetailsDto;
 import com.testassignment.entity.AnimalEntity;
+import com.testassignment.entity.BreedEntity;
 import com.testassignment.entity.Gender;
+import com.testassignment.exceptions.ApiException;
 
 public class DtoEntityMapperImpl implements  DtoEntityMapper {
+
+
+
     @Override
-    public AnimalEntity toAnimalEntity(AnimalDto animalDto) {
+    public AnimalEntity toAnimalEntity(AnimalDto animalDto, BreedEntity breed) {
         AnimalEntity entity = new AnimalEntity();
         entity.setId(animalDto.getId());
         entity.setName(animalDto.getName());
         entity.setAge(animalDto.getAge());
-        entity.setBreedId(animalDto.getBreedType());
-        entity.setGender(Gender.valueOf(animalDto.getGender()));
+        entity.setBreed(breed);
+        try{
+
+            entity.setGender(Gender.valueOf(animalDto.getGender()));
+        }catch (Exception e){
+            throw new ApiException("Gender should be MALE or FEMALE");
+        }
         return entity;
     }
 
@@ -23,7 +33,7 @@ public class DtoEntityMapperImpl implements  DtoEntityMapper {
         entity.setId(animalEntity.getId());
         entity.setName(animalEntity.getName());
         entity.setAge(animalEntity.getAge());
-        entity.setBreedType(animalEntity.getBreedId());
+        entity.setBreedType(animalEntity.getBreed().getId());
         entity.setGender(animalEntity.getGender().name());
         return entity;
     }
@@ -34,7 +44,9 @@ public class DtoEntityMapperImpl implements  DtoEntityMapper {
         entity.setId(animalEntity.getId());
         entity.setName(animalEntity.getName());
         entity.setAge(animalEntity.getAge());
-        entity.setBreedType(animalEntity.getBreed().getName());
+        if(animalEntity.getBreed() != null){
+            entity.setBreedType(animalEntity.getBreed().getName());
+        }
         entity.setGender(animalEntity.getGender().name());
         return entity;
     }

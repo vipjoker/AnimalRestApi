@@ -3,7 +3,6 @@ package com.testassignment.controller;
 import com.testassignment.dto.AnimalDto;
 import com.testassignment.dto.AnimalWithDetailsDto;
 import com.testassignment.service.AnimalService;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,18 +15,19 @@ public class AnimalController {
     AnimalService animalService;
 
     @PostMapping("addAnimal")
-    AnimalDto addAnimal(AnimalDto animalDto){
+    AnimalDto addAnimal(@RequestBody AnimalDto animalDto){
         return animalService.addAnimal(animalDto);
     }
 
     @DeleteMapping("removeAnimal/{id}")
-    void removeAnimal(@PathParam("id") String id){
+    String removeAnimal(@PathVariable String id){
         animalService.removeAnimal(id);
+        return "Animal was removed";
     }
 
     @PutMapping("updateAnimal")
-    void updateAnimal(AnimalDto animalDto){
-        animalService.updateAnimal(animalDto);
+    AnimalDto updateAnimal(@RequestBody AnimalDto animalDto){
+        return animalService.updateAnimal(animalDto);
     }
 
     @GetMapping("getAnimals")

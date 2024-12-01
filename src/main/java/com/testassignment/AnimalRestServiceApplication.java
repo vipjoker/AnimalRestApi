@@ -19,27 +19,4 @@ public class AnimalRestServiceApplication {
 		SpringApplication.run(AnimalRestServiceApplication.class, args);
 	}
 
-
-
-
-
-
-	@Bean
-	CommandLineRunner runner (BreedRepository repository) {
-		return args -> {
-			List<BreedEntity> breedEntities = Arrays.asList(
-					new BreedEntity(1L, "Afganský chrt"),
-					new BreedEntity(2L, "Americká akita"),
-					new BreedEntity(3L, "Anglický buldog"),
-					new BreedEntity(4L, "Belgický ovčiak"),
-					new BreedEntity(5L, "Bradáč")
-			);
-
-			repository.saveAll(breedEntities);
-
-		};
-	}
-
 }
-//https://www.baeldung.com/jpa-one-to-one
-//https://www.baeldung.com/spring-boot-bean-validation
