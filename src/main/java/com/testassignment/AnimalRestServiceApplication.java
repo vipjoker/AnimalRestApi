@@ -40,3 +40,5 @@ public class AnimalRestServiceApplication {
 	}
 
 }
+//https://www.baeldung.com/jpa-one-to-one
+//https://www.baeldung.com/spring-boot-bean-validation
