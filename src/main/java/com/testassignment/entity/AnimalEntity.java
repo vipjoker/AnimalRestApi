@@ -4,15 +4,26 @@ import jakarta.persistence.*;
 
 @Entity
 public class AnimalEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private Integer age;
-    private String breedType;
+
+    @Column(insertable=false, updatable=false)
+    private Long breedId;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "breedId",
+            referencedColumnName = "id")
+    private BreedEntity breed;
+
+
+
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
-
 
     public Long getId() {
         return id;
@@ -38,12 +49,12 @@ public class AnimalEntity {
         this.age = age;
     }
 
-    public String getBreedType() {
-        return breedType;
+    public BreedEntity getBreed() {
+        return breed;
     }
 
-    public void setBreedType(String breedType) {
-        this.breedType = breedType;
+    public void setBreed(BreedEntity breed) {
+        this.breed = breed;
     }
 
     public Gender getGender() {
@@ -52,5 +63,13 @@ public class AnimalEntity {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public Long getBreedId() {
+        return breedId;
+    }
+
+    public void setBreedId(Long breedId) {
+        this.breedId = breedId;
     }
 }

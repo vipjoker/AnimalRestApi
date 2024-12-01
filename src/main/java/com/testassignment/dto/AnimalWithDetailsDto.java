@@ -1,4 +1,4 @@
-package com.testassignment.entity;
+package com.testassignment.dto;
 
 public class AnimalWithDetailsDto {
     private Long id;

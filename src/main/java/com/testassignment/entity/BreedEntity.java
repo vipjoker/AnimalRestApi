@@ -8,13 +8,9 @@ import jakarta.persistence.Id;
 @Entity
 public class BreedEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-
-    public BreedEntity(String name) {
-        this.name = name;
-    }
 
     public BreedEntity(Long id, String name) {
         this.id = id;

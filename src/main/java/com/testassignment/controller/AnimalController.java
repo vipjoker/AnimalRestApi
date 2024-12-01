@@ -1,6 +1,7 @@
 package com.testassignment.controller;
 
-import com.testassignment.entity.AnimalDto;
+import com.testassignment.dto.AnimalDto;
+import com.testassignment.dto.AnimalWithDetailsDto;
 import com.testassignment.service.AnimalService;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class AnimalController {
     }
 
     @GetMapping("getAnimalsWithDetails")
-    List<AnimalDto> getAnimalsWithDetails(){
+    List<AnimalWithDetailsDto> getAnimalsWithDetails(){
         return animalService.getAnimalsWithDetails();
     }
 

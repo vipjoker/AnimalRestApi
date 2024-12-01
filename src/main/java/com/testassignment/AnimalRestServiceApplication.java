@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.Arrays;
+import java.util.List;
 
 @SpringBootApplication
 public class AnimalRestServiceApplication {
@@ -26,16 +27,16 @@ public class AnimalRestServiceApplication {
 	@Bean
 	CommandLineRunner runner (BreedRepository repository) {
 		return args -> {
-			for (BreedEntity p : Arrays.asList(
-					new BreedEntity("Afganský chrt"),
-					new BreedEntity("Americká akita"),
-					new BreedEntity("Anglický buldog"),
-					new BreedEntity("Belgický ovčiak"),
-					new BreedEntity("Bradáč")
-			)) {
+			List<BreedEntity> breedEntities = Arrays.asList(
+					new BreedEntity(1L, "Afganský chrt"),
+					new BreedEntity(2L, "Americká akita"),
+					new BreedEntity(3L, "Anglický buldog"),
+					new BreedEntity(4L, "Belgický ovčiak"),
+					new BreedEntity(5L, "Bradáč")
+			);
 
-				repository.save(p);
-			}
+			repository.saveAll(breedEntities);
+
 		};
 	}
 
