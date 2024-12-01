@@ -1,9 +1,14 @@
 package com.testassignment.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class BreedEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
 
@@ -14,6 +19,10 @@ public class BreedEntity {
     public BreedEntity(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public BreedEntity(){
+
     }
 
     public Long getId() {

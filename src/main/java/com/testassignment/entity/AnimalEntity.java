@@ -5,13 +5,14 @@ import jakarta.persistence.*;
 
 @Entity
 public class AnimalEntity {
-    @Id()
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private Integer age;
     private String breedAge;
     @Enumerated(EnumType.STRING)
-    private String gender;
+    private Gender gender;
 
 
 }
