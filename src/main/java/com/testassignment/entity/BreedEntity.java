@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 @Entity
 public class BreedEntity {
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
 

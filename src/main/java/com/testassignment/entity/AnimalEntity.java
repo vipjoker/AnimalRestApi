@@ -14,9 +14,6 @@ public class AnimalEntity {
     @ManyToOne
     private BreedEntity breed;
 
-
-
-
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
