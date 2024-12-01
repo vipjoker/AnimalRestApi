@@ -1,11 +1,49 @@
 package com.testassignment.entity;
 
-import jakarta.persistence.EnumType;
-
 public class AnimalWithDetailsDto {
     private Long id;
     private String name;
     private Integer age;
-    private String breedName;
+    private String breedType;
     private String gender;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getBreedType() {
+        return breedType;
+    }
+
+    public void setBreedType(String breedType) {
+        this.breedType = breedType;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 }

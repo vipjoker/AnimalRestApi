@@ -2,17 +2,21 @@ package com.testassignment.entity;
 
 import jakarta.persistence.*;
 
-@Entity
-public class AnimalEntity {
+public class AnimalWithDetailsEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private Integer age;
-    private String breedType;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "breedType",
+            referencedColumnName = "id")
+    private BreedEntity breed;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
-
 
     public Long getId() {
         return id;
@@ -38,12 +42,12 @@ public class AnimalEntity {
         this.age = age;
     }
 
-    public String getBreedType() {
-        return breedType;
+    public BreedEntity getBreed() {
+        return breed;
     }
 
-    public void setBreedType(String breedType) {
-        this.breedType = breedType;
+    public void setBreed(BreedEntity breed) {
+        this.breed = breed;
     }
 
     public Gender getGender() {
